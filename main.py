@@ -1,8 +1,9 @@
-from PyQt5.QtCore import QByteArray, QBuffer
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import QByteArray, QBuffer, QCoreApplication, QRect, QMetaObject, QIODevice
+
+from PyQt5.QtWidgets import QPushButton, QApplication, QWidget, QTextBrowser
 import sys
 
-app = QtWidgets.QApplication([])
+app = QApplication([])
 clipboard = app.clipboard()
 
 
@@ -14,34 +15,34 @@ def getBase64():
         buffer.open(QIODevice.WriteOnly)
         image.save(buffer, 'png')
         base64_str = 'data:image/png;base64,' + str(ba.toBase64().data(), 'utf8')
-        if len(base64_str<100):
-            raise
+        #if len(base64_str)<100:
+        #   raise
         return base64_str
-    except:
-        return 'Error,please make sure you have copy the image into clipboard and  try again!'
+    except e :
+        return e + 'Error,please make sure you have copy the image into clipboard and  try again!'
 
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Image to PNG base64")
         Dialog.resize(400, 300)
-        self.textBrowser = QtWidgets.QTextBrowser(Dialog)
-        self.textBrowser.setGeometry(QtCore.QRect(30, 10, 321, 221))
+        self.textBrowser = QTextBrowser(Dialog)
+        self.textBrowser.setGeometry(QRect(30, 10, 321, 221))
         self.textBrowser.setObjectName("textBrowser")
-        self.pushButton = QtWidgets.QPushButton(Dialog)
-        self.pushButton.setGeometry(QtCore.QRect(150, 240, 93, 28))
+        self.pushButton = QPushButton(Dialog)
+        self.pushButton.setGeometry(QRect(150, 240, 93, 28))
         self.pushButton.setObjectName("pushButton")
 
         self.retranslateUi(Dialog)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
+        QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
-        _translate = QtCore.QCoreApplication.translate
+        _translate = QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Image to PNG base64", "Image to PNG base64"))
         self.pushButton.setText(_translate("Image to PNG base64", "GetBase64"))
 
 
-class mainWindow(QtWidgets.QWidget, Ui_Dialog):
+class mainWindow(QWidget, Ui_Dialog):
     def __init__(self):
         super(mainWindow, self).__init__()
         self.setupUi(self)
